@@ -2,7 +2,7 @@
 
 export SUDO_ASKPASS=./zenitypass.sh
 
-if [ $CLI == "0" ]
+if [ "$CLI" == "0" ]
 then
 
 (
@@ -35,13 +35,13 @@ echo "Fertig!"
 echo "Dash To Dock Deaktiviert auf Lite"
 echo "benutze stadtdessen 'Plank' als Dock"
 
-# echo "# installiere die Dash To Dock Erweiterung..."
-# git clone https://github.com/micheleg/dash-to-dock.git /tmp/dashtodock
-# cd /tmp/dashtodock
-# pkexec apt-fast install gettext
-# make
-# make install
-# echo "Fertig!"
+## echo "# installiere die Dash To Dock Erweiterung..."
+## git clone https://github.com/micheleg/dash-to-dock.git /tmp/dashtodock
+## cd /tmp/dashtodock
+## pkexec apt-fast install gettext
+## make
+## make install
+## echo "Fertig!"
 
 echo "*********************************************************"
 echo "# installiere grapejuice (Roblox management und support)..."
@@ -51,7 +51,8 @@ pkexec apt-fast install -y python3-pip python3-setuptools python3-wheel python3-
 echo "# lade grapejuice herunter..."
 git clone https://gitlab.com/brinkervii/grapejuice.git /tmp/grapejuice
 echo "# installiere grapejuice (Dies könnte eine weile dauern!)"
-cd /tmp/grapejuice
+## shellcheck ignore: SC2164
+cd /tmp/grapejuice || exit
 python3 ./install.py
 echo "Fertig!"
 
@@ -59,10 +60,10 @@ echo "*******************************************"
 echo "# installiere Minecraft (bedrock edition)...."
 echo "*******************************************"
 flatpak install io.mrarm.mcpelauncher -y
-# echo "************************************"
-# echo "# installiere Minecraft (Java edition)"
-# echo "************************************"
-# flatpak install com.mojang.minecraft -y
+## echo "************************************"
+## echo "# installiere Minecraft (Java edition)"
+## echo "************************************"
+## flatpak install com.mojang.minecraft -y
 echo "**************************************************************"
 echo "# installiere updates... (könnte was dauern, danke internet lol)"
 echo "**************************************************************"
@@ -73,7 +74,7 @@ zenity --progress --pulsate --auto-close\
   --text="warten..." \
   --percentage=0
 
-elif [ $CLI == "1" ]
+elif [ "$CLI" == "1" ]
 then echo "# InKult Linux Setup"
 
 echo "# erneure update/programm daten..."
@@ -103,13 +104,13 @@ echo "Fertig!"
 echo "Dash To Dock Deaktiviert auf Lite"
 echo "benutze stadtdessen 'Plank' als Dock"
 
-# echo "# installiere die Dash To Dock Erweiterung..."
-# git clone https://github.com/micheleg/dash-to-dock.git /tmp/dashtodock
-# cd /tmp/dashtodock
-# pkexec apt-fast install gettext
-# make
-# make install
-# echo "Fertig!"
+## echo "# installiere die Dash To Dock Erweiterung..."
+## git clone https://github.com/micheleg/dash-to-dock.git /tmp/dashtodock
+## cd /tmp/dashtodock
+## pkexec apt-fast install gettext
+## make
+## make install
+## echo "Fertig!"
 
 echo "*********************************************************"
 echo "# installiere grapejuice (Roblox management und support)..."
@@ -119,7 +120,7 @@ sudo apt-fast install -y python3-pip python3-setuptools python3-wheel python3-de
 echo "# lade grapejuice herunter..."
 git clone https://gitlab.com/brinkervii/grapejuice.git /tmp/grapejuice
 echo "# installiere grapejuice (Dies könnte eine weile dauern!)"
-cd /tmp/grapejuice
+cd /tmp/grapejuice || exit
 python3 ./install.py
 echo "Fertig!"
 
@@ -127,10 +128,10 @@ echo "*******************************************"
 echo "# installiere Minecraft (bedrock edition)...."
 echo "*******************************************"
 flatpak install io.mrarm.mcpelauncher -y
-# echo "************************************"
-# echo "# installiere Minecraft (Java edition)"
-# echo "************************************"
-# flatpak install com.mojang.minecraft -y
+## echo "************************************"
+## echo "# installiere Minecraft (Java edition)"
+## echo "************************************"
+## flatpak install com.mojang.minecraft -y
 echo "**************************************************************"
 echo "# installiere updates... (könnte was dauern, danke internet lol)"
 echo "**************************************************************"
