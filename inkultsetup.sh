@@ -32,16 +32,19 @@ echo "# installiere git..."
 pkexec apt-fast install git -y
 echo "Fertig!"
 
+if [ "$LITE" == "1" ]
+then
 echo "Dash To Dock Deaktiviert auf Lite"
 echo "benutze stadtdessen 'Plank' als Dock"
-
-## echo "# installiere die Dash To Dock Erweiterung..."
-## git clone https://github.com/micheleg/dash-to-dock.git /tmp/dashtodock
-## cd /tmp/dashtodock
-## pkexec apt-fast install gettext
-## make
-## make install
-## echo "Fertig!"
+else
+echo "# installiere die Zorin-Dash erweiterung"
+pkexec apt-fast install gnome-shell-extension-zorin-dash -y
+busctl --user call org.gnome.Shell /org/gnome/Shell org.gnome.Shell Eval s 'Meta.restart("Restarting…")'
+gnome-extensions disable zorin-menu@zorinos.com -q
+gnome-extensions disable zorin-taskbar@zorinos.com -q
+dconf load /org/gnome/shell/extensions/zorin-dash/ < ./zorin-dash-conf
+gnome-extensions enable zorin-dash@zorinos.com -q
+fi
 
 echo "*********************************************************"
 echo "# installiere grapejuice (Roblox management und support)..."
@@ -49,12 +52,11 @@ echo "*********************************************************"
 echo "# installiere abhängigkeiten..."
 pkexec apt-fast install -y python3-pip python3-setuptools python3-wheel python3-dev pkg-config libcairo2-dev gtk-update-icon-cache desktop-file-utils xdg-utils libgirepository1.0-dev gir1.2-gtk-3.0
 echo "# lade grapejuice herunter..."
-git clone https://gitlab.com/brinkervii/grapejuice.git /tmp/grapejuice
-echo "# installiere grapejuice (Dies könnte eine weile dauern!)"
-## shellcheck ignore: SC2164
-cd /tmp/grapejuice || exit
-python3 ./install.py
-echo "Fertig!"
+wget -O- https://gitlab.com/brinkervii/grapejuice/-/raw/master/ci_scripts/signing_keys/public_key.gpg | gpg --dearmor > /tmp/grapejuice-archive-keyring.gpg
+pkexec cp /tmp/grapejuice-archive-keyring.gpg /usr/share/keyrings/
+rm /tmp/grapejuice-archive-keyring.gpg
+pkexec tee /etc/apt/sources.list.d/grapejuice.list <<< 'deb [signed-by=/usr/share/keyrings/grapejuice-archive-keyring.gpg] https://brinkervii.gitlab.io/grapejuice/repositories/debian/ universal main' > /dev/null
+
 
 echo "*******************************************"
 echo "# installiere Minecraft (bedrock edition)...."
@@ -104,13 +106,19 @@ echo "Fertig!"
 echo "Dash To Dock Deaktiviert auf Lite"
 echo "benutze stadtdessen 'Plank' als Dock"
 
-## echo "# installiere die Dash To Dock Erweiterung..."
-## git clone https://github.com/micheleg/dash-to-dock.git /tmp/dashtodock
-## cd /tmp/dashtodock
-## pkexec apt-fast install gettext
-## make
-## make install
-## echo "Fertig!"
+if [ "$LITE" == "1" ]
+then
+echo "Dash To Dock Deaktiviert auf Lite"
+echo "benutze stadtdessen 'Plank' als Dock"
+else
+echo "# installiere die Zorin-Dash erweiterung"
+sudo apt-fast install gnome-shell-extension-zorin-dash -y
+busctl --user call org.gnome.Shell /org/gnome/Shell org.gnome.Shell Eval s 'Meta.restart("Restarting…")'
+gnome-extensions disable zorin-menu@zorinos.com -q
+gnome-extensions disable zorin-taskbar@zorinos.com -q
+dconf load /org/gnome/shell/extensions/zorin-dash/ < ./zorin-dash-conf
+gnome-extensions enable zorin-dash@zorinos.com -q
+fi
 
 echo "*********************************************************"
 echo "# installiere grapejuice (Roblox management und support)..."
@@ -118,11 +126,11 @@ echo "*********************************************************"
 echo "# installiere abhängigkeiten..."
 sudo apt-fast install -y python3-pip python3-setuptools python3-wheel python3-dev pkg-config libcairo2-dev gtk-update-icon-cache desktop-file-utils xdg-utils libgirepository1.0-dev gir1.2-gtk-3.0
 echo "# lade grapejuice herunter..."
-git clone https://gitlab.com/brinkervii/grapejuice.git /tmp/grapejuice
-echo "# installiere grapejuice (Dies könnte eine weile dauern!)"
-cd /tmp/grapejuice || exit
-python3 ./install.py
-echo "Fertig!"
+wget -O- https://gitlab.com/brinkervii/grapejuice/-/raw/master/ci_scripts/signing_keys/public_key.gpg | gpg --dearmor > /tmp/grapejuice-archive-keyring.gpg
+sudo cp /tmp/grapejuice-archive-keyring.gpg /usr/share/keyrings/
+rm /tmp/grapejuice-archive-keyring.gpg
+sudo tee /etc/apt/sources.list.d/grapejuice.list <<< 'deb [signed-by=/usr/share/keyrings/grapejuice-archive-keyring.gpg] https://brinkervii.gitlab.io/grapejuice/repositories/debian/ universal main' > /dev/null
+
 
 echo "*******************************************"
 echo "# installiere Minecraft (bedrock edition)...."
