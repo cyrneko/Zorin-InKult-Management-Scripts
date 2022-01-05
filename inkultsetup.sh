@@ -63,10 +63,13 @@ echo "*******************************************"
 echo "# installiere Minecraft (bedrock edition)...."
 echo "*******************************************"
 flatpak install io.mrarm.mcpelauncher -y
-## echo "************************************"
-## echo "# installiere Minecraft (Java edition)"
-## echo "************************************"
-## flatpak install com.mojang.minecraft -y
+if [ "$MCJAVA" == "1" ]
+then
+echo "************************************"
+echo "# installiere Minecraft (Java edition)"
+echo "************************************"
+flatpak install com.mojang.minecraft -y
+fi
 echo "**************************************************************"
 echo "# installiere updates... (könnte was dauern, danke internet lol)"
 echo "**************************************************************"
@@ -137,10 +140,13 @@ echo "*******************************************"
 echo "# installiere Minecraft (bedrock edition)...."
 echo "*******************************************"
 flatpak install io.mrarm.mcpelauncher -y
-## echo "************************************"
-## echo "# installiere Minecraft (Java edition)"
-## echo "************************************"
-## flatpak install com.mojang.minecraft -y
+if [ "$MCJAVA" == "1" ]
+then
+echo "************************************"
+echo "# installiere Minecraft (Java edition)"
+echo "************************************"
+flatpak install com.mojang.minecraft -y
+fi
 echo "**************************************************************"
 echo "# installiere updates... (könnte was dauern, danke internet lol)"
 echo "**************************************************************"
