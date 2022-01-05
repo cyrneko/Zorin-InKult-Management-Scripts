@@ -56,7 +56,8 @@ wget -O- https://gitlab.com/brinkervii/grapejuice/-/raw/master/ci_scripts/signin
 pkexec cp /tmp/grapejuice-archive-keyring.gpg /usr/share/keyrings/
 rm /tmp/grapejuice-archive-keyring.gpg
 pkexec tee /etc/apt/sources.list.d/grapejuice.list <<< 'deb [signed-by=/usr/share/keyrings/grapejuice-archive-keyring.gpg] https://brinkervii.gitlab.io/grapejuice/repositories/debian/ universal main' > /dev/null
-
+pkexec apt update && pkexec apt-fast install grapejuice
+echo "Fertig!"
 
 echo "*******************************************"
 echo "# installiere Minecraft (bedrock edition)...."
@@ -130,7 +131,7 @@ wget -O- https://gitlab.com/brinkervii/grapejuice/-/raw/master/ci_scripts/signin
 sudo cp /tmp/grapejuice-archive-keyring.gpg /usr/share/keyrings/
 rm /tmp/grapejuice-archive-keyring.gpg
 sudo tee /etc/apt/sources.list.d/grapejuice.list <<< 'deb [signed-by=/usr/share/keyrings/grapejuice-archive-keyring.gpg] https://brinkervii.gitlab.io/grapejuice/repositories/debian/ universal main' > /dev/null
-
+sudo apt update && sudo apt-fast install grapejuice
 
 echo "*******************************************"
 echo "# installiere Minecraft (bedrock edition)...."
