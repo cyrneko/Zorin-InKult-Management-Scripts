@@ -1,6 +1,7 @@
 #!/bin/bash
 
-export SUDO_ASKPASS=./zenitypass.sh
+# ↓ ew what the fuck is this shit below, how did I think this was a good implementation
+# export SUDO_ASKPASS=./zenitypass.sh
 
 if [ "$CLI" == "0" ]
 then
