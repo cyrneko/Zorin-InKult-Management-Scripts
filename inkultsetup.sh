@@ -159,8 +159,6 @@ if [ "$UPGRADABLE" == "1" ]
 then
 echo "" | sudo tee -a /etc/environment
 echo "INKULT_SCRIPT_SUCCESSFUL=1" | sudo tee -a /etc/environment
-else
-exit 0
 fi
 
 exit 0
