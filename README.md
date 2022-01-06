@@ -12,14 +12,29 @@ Sollte ein "nachfolger" nach diesen scripts gefragt haben, und weiß nicht weite
 
 Core mit GUI:
 
-```
+```bash
 chmod +x ./inkultsetup.sh && ./inkultsetup.sh
 ```
 
 Lite mit GUI:
 
-```
+```bash
 chmod +x ./inkultsetup.sh && ./inkultsetup.sh
 ```
 
-`CLI=1` kann als variabel ***vor*** dem eigentlichem befehl eingesetzt werden, um ihn ohne benutzeroberfläche laufen zu lassen. (automatisiert, passwort muss nur einmal eingegeben werden, nicht bei Jedem schritt)
+Du Kannst auch variabeln vor `./inkultsetup.sh` stellen, um verhalten zu ändern, zum beispiel so:
+```bash
+MCJAVA=1 ./inkultsetup.sh
+```
+Hiermit wird dann Minecraft Java Edition installiert zusammen mit allen anderen Programmen und Änderungen.
+
+---
+
+## Liste von Variabeln welche eingesetzt werden können, und was diese bewirken:
+
+| Variabel | Effekt auf das Endergebnis |
+|:-:|:-:|
+| MCJAVA=1 | Installiert Minecraft Java Edition |
+| CLI=1/0 | Aktiviert/Deaktiviert CLI Modus (Keine Benutzeroberfläche) |
+| LITE=1 | Überspringt die installation von Zorin-Dash (nicht für Lite verfügbar) |
+| UPGRADABLE=1 | Noch nicht Implementiert, wird in späteren versionen für's updaten der software benutzt |
