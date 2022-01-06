@@ -33,7 +33,7 @@ Hiermit wird dann Minecraft Java Edition installiert zusammen mit allen anderen 
 ## Liste von Variabeln welche eingesetzt werden können, und was diese bewirken:
 
 | Variabel | Effekt auf das Endergebnis |
-|:-:|:-:|
+|-|-|
 | MCJAVA=1 | Installiert Minecraft Java Edition |
 | CLI=1/0 | Aktiviert/Deaktiviert CLI Modus (Keine Benutzeroberfläche) |
 | LITE=1 | Überspringt die installation von Zorin-Dash (nicht für Lite verfügbar) |
