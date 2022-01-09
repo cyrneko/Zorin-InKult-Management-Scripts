@@ -11,4 +11,30 @@ then do the following to run the script:
 ./Any-Script-Here.sh # actually run the script, without any arguments.
 ```
 
+available arguments for **InKultRewritten.sh** can be seen by running the script like this:
+```bash
+./InKultWritten.sh -h
+```
+
+you should then get an output something like this:
+```bash
+ ___       _  __     _ _     ____       _               
+|_ _|_ __ | |/ /   _| | |_  / ___|  ___| |_ _   _ _ __  
+ | || '_ \| ' / | | | | __| \___ \ / _ \ __| | | | '_ \ 
+ | || | | | . \ |_| | | |_   ___) |  __/ |_| |_| | |_) |
+|___|_| |_|_|\_\__,_|_|\__| |____/ \___|\__|\__,_| .__/ 
+                                                 |_|    
+This script sets up Zorin installations at the InKult Youth Center in Germany.
+------------
+Syntax: ./InKultRewritten.sh [Options]
+
+Example options:
+./InKultRewritten.sh -h   |   shows a help page for this script
+./InKultRewritten.sh -c   |   starts installation and setup for Zorin 16 Core
+./InKultRewritten.sh -l   |   starts installation and setup for Zorin 16 Lite
+------------
+```
+
+from there, run options as shown in the script!
+
 ### PS: I don't know why I suddenly started writing in English instead of German, it's just something that I do whenever I code ig
