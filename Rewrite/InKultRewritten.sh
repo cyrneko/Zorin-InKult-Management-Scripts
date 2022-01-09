@@ -33,7 +33,7 @@ while getopts ":hl:" option; do
          exit;;
       l) # Specify Zorin-Lite for Setup
          echo -e "${red}$(figlet Zorin Lite)${reset}" 
-         sudo -S ${basic-programs}
+         sudo -S "${basic-programs}"
          exit;;
       \?) # Invalid option
          echo "Error: Invalid option"
