@@ -31,9 +31,9 @@ while getopts ":hl:" option; do
          echo -e "$0 -h   |   ${green}shows a help page for this script${reset}"
          echo "------------"
          exit;;
-      l) # Specify Zorin-Lite for Setup
-         echo -e "${red}$(figlet Zorin Lite)${reset}" 
-         sudo -S "${basic-programs}"
+      l) # Specify Zorin-Lite for Setup | shit doesn't work at the moment, man, why
+         # echo -e "${red}${bold}$(figlet Zorin Lite)${reset}"
+         # basic-programs
          exit;;
       \?) # Invalid option
          echo "Error: Invalid option"
@@ -46,10 +46,10 @@ done
 basic-programs () {
    sudo add-apt-repository ppa:apt-fast/stable
    sudo apt-get update
-   DEBIAN_FRONTEND=noninteractive apt-get install -y apt-fast
-   echo debconf apt-fast/maxdownloads string 20 | debconf-set-selections
-   echo debconf apt-fast/dlflag boolean true | debconf-set-selections
-   echo debconf apt-fast/aptmanager string apt | debconf-set-selections
+   sudo DEBIAN_FRONTEND=noninteractive apt-get install -y apt-fast
+   sudo echo debconf apt-fast/maxdownloads string 20 | debconf-set-selections
+   sudo echo debconf apt-fast/dlflag boolean true | debconf-set-selections
+   sudo echo debconf apt-fast/aptmanager string apt | debconf-set-selections
    sudo dpkg --add-architecture i386
 }
 
