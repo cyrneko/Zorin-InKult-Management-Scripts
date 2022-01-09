@@ -51,7 +51,6 @@ basic-programs () {
    echo debconf apt-fast/dlflag boolean true | debconf-set-selections
    echo debconf apt-fast/aptmanager string apt | debconf-set-selections
    sudo dpkg --add-architecture i386
-
 }
 
 exit 0
