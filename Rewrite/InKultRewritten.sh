@@ -18,7 +18,7 @@ reset="\e[0m"
 
 # Options
 # shellcheck disable=SC1089
-while getopts ":hl:" option; do
+while getopts ":hlc" option; do
 # shellcheck disable=SC2220
    case $option in
       h) # display Help
@@ -29,11 +29,25 @@ while getopts ":hl:" option; do
          echo ""
          echo -e "${blue}${bold}${uline}Example options:${reset}"
          echo -e "$0 -h   |   ${green}shows a help page for this script${reset}"
+         echo -e "$0 -c   |   ${green}starts installation and setup for Zorin 16 Core"
          echo "------------"
          exit;;
       l) # Specify Zorin-Lite for Setup | shit doesn't work at the moment, man, why
          # echo -e "${red}${bold}$(figlet Zorin Lite)${reset}"
          # basic-programs
+         exit;;
+      c)
+         echo -e "${red}${bold}§(figlet Zorin Core)"
+         basic-programs
+         echo -e "${green}# Installing the Zorin-Dash extension...${reset}"
+         echo -e "${red} Don't panic if the screen flickers for a second, it's normal ;)${reset}"
+         sleep 5s
+         sudo apt-fast install gnome-shell-extension-zorin-dash -y
+         busctl --user call org.gnome.Shell /org/gnome/Shell org.gnome.Shell Eval s 'Meta.restart("Restarting…")'
+         gnome-extensions disable zorin-menu@zorinos.com -q
+         gnome-extensions disable zorin-taskbar@zorinos.com -q
+         dconf load /org/gnome/shell/extensions/zorin-dash/ < ./zorin-dash-conf
+         gnome-extensions enable zorin-dash@zorinos.com -q
          exit;;
       \?) # Invalid option
          echo "Error: Invalid option"
@@ -51,6 +65,13 @@ basic-programs () {
    sudo echo debconf apt-fast/dlflag boolean true | debconf-set-selections
    sudo echo debconf apt-fast/aptmanager string apt | debconf-set-selections
    sudo dpkg --add-architecture i386
+   echo "${green}${bold}# Installing WINE keys...${reset}"
+   wget -nc https://dl.winehq.org/wine-builds/winehq.key
+   sudo apt-key add winehq.key
+   sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main' -y
+   echo -e "${green}${bold}# Installing Wine${reset}"
+   echo -e "${red} This might take a while depending on internet speeds!${reset}"
+   sudo apt-fast install --install-recommends winehq-devel
 }
 
 exit 0
