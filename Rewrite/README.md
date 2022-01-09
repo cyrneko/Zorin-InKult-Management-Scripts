@@ -1,5 +1,5 @@
-# This is a re-write of the inkultsetup.sh script
-## as the previous one was quite messy, and I bet I can make it smaller and better with my current knowledge, I decided to re-write the entire thing with basically the same end-goal
+# ***This is a re-write of the inkultsetup.sh script***
+## **as the previous one was quite messy, and I bet I can make it smaller and better with my current knowledge, I decided to re-write the entire thing with basically the same end-goal**
 
 The basic principles of running the script still apply
 Set Permissions:
