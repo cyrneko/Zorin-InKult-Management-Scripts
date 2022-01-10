@@ -29,8 +29,9 @@ while getopts ":hlc" option; do
       echo ""
       echo -e "${blue}${bold}${uline}Example options:${reset}"
       echo -e "$0 -h   |   ${green}shows a help page for this script${reset}"
-      echo -e "$0 -c   |   ${green}starts installation and setup for Zorin 16 Core${reset}"
-      echo -e "$0 -l   |   ${green}starts installation and setup for Zorin 16 Lite${reset}"
+      echo -e "$0 -c   |   ${green}starts installation and setup for Zorin 16 Core.${reset}"
+      echo -e "$0 -l   |   ${green}starts installation and setup for Zorin 16 Lite.${reset}"
+      echo -e "$0 -o   |   ${green}attempts to install on other debian-based distributions.${reset}"
       echo "------------"
       exit
       ;;
