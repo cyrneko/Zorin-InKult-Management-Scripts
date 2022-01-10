@@ -16,7 +16,7 @@ available arguments for **InKultRewritten.sh** can be seen by running the script
 ./InKultWritten.sh -h
 ```
 
-you should then get an output something like this (just, yours would be colored):
+you should then get an output something like this (just that yours would be colored):
 ```
  ___       _  __     _ _     ____       _               
 |_ _|_ __ | |/ /   _| | |_  / ___|  ___| |_ _   _ _ __  
