@@ -38,7 +38,7 @@ while getopts ":hlc" option; do
          # basic-programs
          exit;;
       c)
-         echo -e "${red}${bold}§(figlet Zorin Core)"
+         echo -e "${red}${bold}$(figlet Zorin Core)"
          basic-programs
          echo -e "${green}# Installing the Zorin-Dash extension...${reset}"
          echo -e "${red} Don't panic if the screen flickers for a second, it's normal ;)${reset}"
