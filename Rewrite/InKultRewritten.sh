@@ -18,7 +18,7 @@ reset="\e[0m"
 
 # Basic Programs are installed accross all types of installation
 # Work In Progress
-basic-programs () {
+basic-programs() {
    sudo add-apt-repository ppa:apt-fast/stable
    sudo apt-get update
    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y apt-fast
@@ -52,13 +52,15 @@ while getopts ":hlc" option; do
       echo -e "$0 -l   |   ${green}starts installation and setup for Zorin 16 Lite.${reset}"
       echo -e "$0 -o   |   ${green}attempts to install on other debian-based distributions.${reset}"
       echo -e "$0 -p   |   ${green}preperation for running the script, not mandatory.${reset}"
+      echo -e "${blue}PLANK=1 can be used to install plank.${reset}"
       echo "------------"
       exit
       ;;
    l) # Specify Zorin-Lite for Setup | shit doesn't work at the moment, man, why
       echo -e "${red}${bold}$(figlet Zorin Lite)${reset}"
       basic-programs
-      sudo apt install plank
+      if [ "$PLANK" == "1" ]; then sudo apt install plank
+      fi
       exit
       ;;
    c)
@@ -69,13 +71,15 @@ while getopts ":hlc" option; do
       sleep 5s
       sudo apt-fast install gnome-shell-extension-zorin-dash -y
       busctl --user call org.gnome.Shell /org/gnome/Shell org.gnome.Shell Eval s 'Meta.restart("Restarting…")'
+      echo "${red}sleeping for 10 seconds...${reset}"
+      sleep 10s
       gnome-extensions disable zorin-menu@zorinos.com -q
       gnome-extensions disable zorin-taskbar@zorinos.com -q
       dconf load /org/gnome/shell/extensions/zorin-dash/ <./zorin-dash-conf
       gnome-extensions enable zorin-dash@zorinos.com -q
       exit
       ;;
-   \?) # Invalid option
+   *) # Invalid option
       echo "Error: Invalid option"
       exit
       ;;
