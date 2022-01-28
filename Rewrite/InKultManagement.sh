@@ -16,24 +16,6 @@ uline="\e[4m"
 # shellcheck disable=SC2034
 reset="\e[0m"
 
-gui () {
-   echo -e "${green}Starting GUI...${reset}"
-   ask=$(zenity --list --title="Management Options" --column="0" "Restart Pipewire" "Restart PulseAudio (old Audio Server)" "do Accelerated Updates" "Show Help" --width=150 --height=300 --hide-header)
-   if [ "$ask" == "Restart Pipewire" ]; then
-      echo "Restarting Pipewire (Audio Server)..."
-      pipewire
-   elif [ "$ask" == "Restart PulseAudio (old Audio Server)" ]; then
-      echo "Restarting PulseAudio..."
-      pulseaudio
-   elif [ "$ask" == "do Accelerated Updates" ]; then
-      echo "Running apt-fast for accelerated updates...."
-      apt-fast-upgrade
-   elif [ "$ask" == "Show Help" ]; then
-      sleep 1s
-      help
-   fi
-}
-
 pulseaudio() {
    systemctl --user restart pulseaudio
    echo -e "${green}PulseAudio restarted!${reset}"
@@ -49,6 +31,8 @@ help() {
    echo -e "${reset}------------"
    echo -e "${blue}${bold}${uline}Syntax${reset}: $0 [Options]"
    echo ""
+   echo -e "${red}No Options = GUI${reset}"
+   echo ""
    echo -e "${blue}${bold}${uline}Example options:${reset}"
    echo -e "$0 -h   |   ${green}shows a help page for this script${reset}"
    echo -e "$0 -g   |   ${green}shows a GUI to do different actions${reset}"
@@ -63,6 +47,27 @@ apt-fast-upgrade () {
    echo -e "${red}starting...${reset}"
    pkexec apt-fast upgrade -y
    echo -e "${green}Finished!${reset}"
+}
+
+
+gui () {
+   echo -e "${green}Starting GUI...${reset}"
+   ask=$(zenity --list --title="Management Options" --column="0" "Restart Pipewire" "Restart PulseAudio (old Audio Server)" "do Accelerated Updates" "Show Help" --width=150 --height=300 --hide-header)
+   if [ "$ask" == "Restart Pipewire" ]; then
+      echo "Restarting Pipewire (Audio Server)..."
+      (pipewire >> /dev/tty
+      echo "100" ) | zenity --progress --auto-close --pulsate --title="Restarting Pipewire..." --text="Make sure audio devices are plugged in BEFORE running this, otherwise it may not work."
+   elif [ "$ask" == "Restart PulseAudio (old Audio Server)" ]; then
+      echo "Restarting PulseAudio..."
+      (pulseaudio >> /dev/tty
+      echo "100" ) | zenity --progress --auto-close --pulsate --title="restarting PulseAudio..." --text="Make sure audio devices are plugged in BEFORE running this, otherwie it may not work."
+   elif [ "$ask" == "do Accelerated Updates" ]; then
+      echo "Running apt-fast for accelerated updates...."
+      (apt-fast-upgrade >> /dev/tty
+      echo "100") | zenity --progress --auto-close --pulsate --title="updating..." --text="please be patient, this might take a while..."
+   elif [ "$ask" == "Show Help" ]; then
+      help
+   fi
 }
 
 if [ -n "$1" ]; then
