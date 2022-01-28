@@ -26,6 +26,7 @@ pipewire() {
 }
 
 help() {
+   clear
    echo -e "${red}$(figlet "InKult Management")"
    echo "This script sets up Zorin installations at the InKult Youth Center in Germany."
    echo -e "${reset}------------"
@@ -33,7 +34,7 @@ help() {
    echo ""
    echo -e "${red}No Options = GUI${reset}"
    echo ""
-   echo -e "${blue}${bold}${uline}Example options:${reset}"
+   echo -e "${blue}${bold}${uline}Available options:${reset}"
    echo -e "$0 -h   |   ${green}shows a help page for this script${reset}"
    echo -e "$0 -g   |   ${green}shows a GUI to do different actions${reset}"
    echo -e "$0 -a   |   ${green}runs apt-fast for accelerated system updates${reset}"
