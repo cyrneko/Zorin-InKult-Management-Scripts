@@ -2,7 +2,7 @@
 
 Hier verstaue/speichere ich scripts für das InKult und Zorin Installationen, um Management für Mitarbeiter, Ehrenamtliche, oder auch leute welche nur kurz einspringen zu erleichtern.
 
-## Dieses Repository wird so lange geupdated wie ich im InKult aktiv ist und/oder es existiert
+## Dieses Repository wird so lange geupdated wie ich im InKult aktiv bin und/oder es existiert
 
 Sollte ein "nachfolger" nach diesen scripts gefragt haben, und weiß nicht weiter/wie man diesen Script benutzt, und/oder wie man ihn auf neuere versionen von Zorin upgraded, kontaktiere mich auf [Telegram](https://telegram.dog/HowToRush), und ich werde dir gerne weiterhelfen.
 
