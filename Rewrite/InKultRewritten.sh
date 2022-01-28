@@ -19,8 +19,12 @@ reset="\e[0m"
 zlite() {
    echo -e "${red}${bold}$(figlet Zorin Lite)${reset}"
    basic-programs
-   if [ "$PLANK" == "1" ]; then
-      sudo apt install plank
+   if [ -n "$1" ]; then
+      case "$1" in
+         --plank)
+            sudo apt-fast install plank -y
+      esac
+      shift
    fi
    exit
 }
@@ -53,7 +57,7 @@ help() {
    echo -e "$0 -c   |   ${green}starts installation and setup for Zorin 16 Core.${reset}"
    echo -e "$0 -l   |   ${green}starts installation and setup for Zorin 16 Lite.${reset}"
    echo -e "$0 -o   |   ${green}attempts to install on other debian-based distributions.${reset}"
-   echo -e "${blue}PLANK=1 can be used to install plank-dock.${reset}"
+   echo -e "${blue}--plank can be used in combination with -l to install plank-dock.${reset}"
    echo "------------"
    exit
 }
