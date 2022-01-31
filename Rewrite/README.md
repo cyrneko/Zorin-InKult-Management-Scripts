@@ -33,9 +33,12 @@ Example options:
 ./InKultRewritten.sh -c   |   starts installation and setup for Zorin 16 Core.
 ./InKultRewritten.sh -l   |   starts installation and setup for Zorin 16 Lite.
 ./InKultRewritten.sh -o   |   attempts to install on other debian-based distributions.
-./InKultRewritten.sh -p   |   preperation for running the script, not mandatory.
+--plank can be used in combination with -l to install plank-dock.s
 ```
 
-from there, run options as shown in the script!
+from there, run options as shown in the script to do the actions which are defined for each *option¹*
+
+
+> ¹ an option is here defined as an extension to the command which is ran, for example `-h` to show the help dialog
 
 ### PS: I don't know why I suddenly started writing in English instead of German, it's just something that I do whenever I code ig
