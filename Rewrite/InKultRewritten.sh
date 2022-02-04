@@ -103,7 +103,7 @@ if [ -n "$1" ]; then
    esac
    shift
 else
-   help
+   gui
 fi
 
 exit 0
