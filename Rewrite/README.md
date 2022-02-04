@@ -8,12 +8,19 @@ chmod +x Any-Script-Here.sh # +x assigns the "run" permission to this script, ma
 ```
 then do the following to run the script:
 ```bash
-./Any-Script-Here.sh # actually run the script, without any arguments.
+./Any-Script-Here.sh # actually run the script, without any options.
+
+# you can also just double-click onto the .sh file and hit "Execute" in the upcoming window
 ```
 
 available arguments for **InKultRewritten.sh** can be seen by running the script like this:
 ```bash
-./InKultWritten.sh -h
+# this ↓
+./InKultRewritten.sh -h
+# or this ↓
+./InKultManagement.sh -h
+
+# you can also simply run the script(s) without any arguments to get a UI
 ```
 
 you should then get an output something like this (just that yours would be colored):
@@ -39,6 +46,6 @@ Example options:
 from there, run options as shown in the script to do the actions which are defined for each *option¹*
 
 
-> ¹ an option is here defined as an extension to the command which is ran, for example `-h` to show the help dialog
+> ¹ an option is here defined as an extension to the command which is ran, for example `-h` to show the help dialog, or `-o` to install on any given Debian-Based distribution
 
-### PS: I don't know why I suddenly started writing in English instead of German, it's just something that I do whenever I code ig
+> ## PS: I don't know why I suddenly started writing in English instead of German, it's just something that I do whenever I code ig
