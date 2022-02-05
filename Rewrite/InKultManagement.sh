@@ -71,6 +71,23 @@ gui () {
    fi
 }
 
+dconfbackup() {
+   askdconf=$(zenity --list --title="Backup" --column="0" "backup all settings" "backup only Desktop Extensions" "backup only .config folder" "backup everything" --width=150 --height=300 --hide-header)
+   if [ "$askdconf" == "backup all settings" ]; then
+      mkdir -p ~/Backups/Dconf/
+      dconf dump > ~/Backups/Dconf/backup.dconf
+   fi
+
+   if [ "$askdconf" == "backup only Desktop Extensions" ]; then
+      mkdir -p ~/Backups/Dconf/
+      dconf dump /org/gnome/shell/extensions/ > ~/Backups/Dconf/extensions.dconf
+   fi
+
+   if [ "$askdconf" == "backup only .config folder" ]; then
+      mkdir -p ~/Backups/
+      cp -R ~/.config ~/Backups/
+}
+
 if [ -n "$1" ]; then
    case "$1" in
    -h)
@@ -90,6 +107,9 @@ if [ -n "$1" ]; then
    -a)
       echo "Running apt-fast for accelerated updates...."
       apt-fast-upgrade
+      ;;
+   -b) # backup settings through dconf
+      dconfbackup
       ;;
    *)
       echo "$1 is not an option"
