@@ -86,6 +86,13 @@ dconfbackup() {
    if [ "$askdconf" == "backup only .config folder" ]; then
       mkdir -p ~/Backups/
       cp -R ~/.config ~/Backups/
+   fi
+
+   if [ "$askdconf" == "backup everything" ]; then
+      mkdir -p ~/Backups/Dconf/
+      dconf dump > ~/Backups/Dconf/all.dconf
+      cp -R ~/.config ~/Backups/
+   fi
 }
 
 if [ -n "$1" ]; then
