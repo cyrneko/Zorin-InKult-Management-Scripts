@@ -8,6 +8,8 @@
     - InKultManagement.sh ist der Management Skript, für generelle system-maintenance, siehe zb Pipewire oder Pulseaudio neustarten, oder beschleunigte Updates
 - ***InKultRewritten.sh***
     - InKultRewritten.sh ist der installations/Setup Skript, er wird benutzt um Zorin 16 Core/Lite, oder andere Debian-basierte distributionen einzurichten, komplett Automatisch
+- **InKult-Click-Here.sh**
+    - InKult-Click-Here.sh ist selbsterklärend, es ist ein "Wrapper", welcher erlaubt InKultSetup oder InKultManagement aufzurufen
 - ***README.md***
     spoiler
     - README.md ist eine weitere README Datei, welche ein wenig mehr information über die Skripte gibt
