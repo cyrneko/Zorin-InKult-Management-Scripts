@@ -138,6 +138,12 @@ if [ -n "$1" ]; then
    -b) # backup settings through dconf
       dconfbackup
       ;;
+   -l)
+      lutris
+      ;;
+   -b)
+      bottles
+      ;;
    *)
       echo "$1 is not an option"
       ;;
