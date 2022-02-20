@@ -25,6 +25,20 @@ pipewire() {
    systemctl --user restart pipewire pipewire-pulse || echo -e "${red}Restarting Failed!${reset}" || echo -e "${green}pipewire restarted${reset}"
 }
 
+bottles() {
+   echo -e "${green}Installing Bottles through Flatpak..."
+   flatpak install com.usebottles.bottles
+   echo -e "${green}Bottles Installed! Launch it from the Menu or the Search"
+}
+
+lutris() {
+   echo -e "${green}Installing Lutris..."
+   sudo add-apt-repository ppa:lutris-team/lutris
+   sudo apt update
+   sudo apt install lutris
+   echo -e "${green}Lutris Installed! Launch it from the Menu or the Search"
+}
+
 help() {
    clear
    echo -e "${red}$(figlet "InKult Management")"
@@ -53,7 +67,7 @@ apt-fast-upgrade () {
 
 gui () {
    echo -e "${green}Starting GUI...${reset}"
-   ask=$(zenity --list --title="Management Options" --column="0" "Restart Pipewire" "Restart PulseAudio (old Audio Server)" "do Accelerated Updates" "Show Help" --width=150 --height=300 --hide-header)
+   ask=$(zenity --list --title="Management Options" --column="0" "Restart Pipewire" "Restart PulseAudio (old Audio Server)" "do Accelerated Updates" "Show Help" "Install Bottles" "Install Lutris" --width=150 --height=300 --hide-header)
    if [ "$ask" == "Restart Pipewire" ]; then
       echo "Restarting Pipewire (Audio Server)..."
       (pipewire >> /dev/tty
@@ -68,6 +82,12 @@ gui () {
       echo "100") | zenity --progress --auto-close --pulsate --title="updating..." --text="please be patient, this might take a while..."
    elif [ "$ask" == "Show Help" ]; then
       help
+   elif [ "$ask" == "Install Bottles" ]; then
+      (bottles >> /dev/tty
+      echo "100") | zenity --progress --auto-close --pulsate --title="Installing Bottles..." --text="please be patient, this might take a while..."
+   elif [ "$ask" == "Install Lutris" ]; then
+      (lutris >> /dev/tty
+      echo "100") | zenity --progress --auto-close --pulsate --title="Installing Lutris..." --text="please be patient, this might take a while..."
    fi
 }
 
