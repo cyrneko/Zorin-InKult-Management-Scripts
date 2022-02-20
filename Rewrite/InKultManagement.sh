@@ -67,7 +67,7 @@ apt-fast-upgrade () {
 
 gui () {
    echo -e "${green}Starting GUI...${reset}"
-   ask=$(zenity --list --title="Management Options" --column="0" "Restart Pipewire" "Restart PulseAudio (old Audio Server)" "do Accelerated Updates" "Show Help" "Install Bottles" "Install Lutris" --width=150 --height=300 --hide-header)
+   ask=$(zenity --list --title="Management Options" --column="0" "Restart Pipewire" "Restart PulseAudio (old Audio Server)" "do Accelerated Updates" "Show Help" "Install Bottles" "Install Lutris" --width=300 --height=300 --hide-header)
    if [ "$ask" == "Restart Pipewire" ]; then
       echo "Restarting Pipewire (Audio Server)..."
       (pipewire >> /dev/tty
