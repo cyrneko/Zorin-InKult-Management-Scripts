@@ -107,6 +107,3 @@ else
 fi
 
 exit 0
-# Basic Programs are installed accross all types of installation
-
-exit 0
