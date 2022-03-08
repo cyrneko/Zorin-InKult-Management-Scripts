@@ -49,3 +49,5 @@ from there, run options as shown in the script to do the actions which are defin
 > ¹ an option is here defined as an extension to the command which is ran, for example `-h` to show the help dialog, or `-o` to install on any given Debian-Based distribution
 
 > ## PS: I don't know why I suddenly started writing in English instead of German, it's just something that I do whenever I code ig
+
+:trollface:
