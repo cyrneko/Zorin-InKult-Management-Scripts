@@ -17,8 +17,6 @@ available arguments for **InKultRewritten.sh** can be seen by running the script
 ```bash
 # this ↓
 ./InKultRewritten.sh -h
-# or this ↓
-./InKultManagement.sh -h
 
 # you can also simply run the script(s) without any arguments to get a UI
 ```
