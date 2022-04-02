@@ -64,11 +64,11 @@ help() {
 
 basic-programs() {
    sudo add-apt-repository ppa:apt-fast/stable
-   sudo apt-get update
+   sudo apt update
    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y apt-fast
-   sudo echo debconf apt-fast/maxdownloads string \"20\" | debconf-set-selections
-   sudo echo debconf apt-fast/dlflag boolean \"true\" | debconf-set-selections
-   sudo echo debconf apt-fast/aptmanager string \"apt\" | debconf-set-selections
+   sudo echo debconf "apt-fast/maxdownloads string \"20\"" | debconf-set-selections
+   sudo echo debconf "apt-fast/dlflag boolean \"true\"" | debconf-set-selections
+   sudo echo debconf "apt-fast/aptmanager string \"apt\"" | debconf-set-selections
    sudo dpkg --add-architecture i386
    echo "${green}${bold}# Installing WINE keys...${reset}"
    wget -nc https://dl.winehq.org/wine-builds/winehq.key
