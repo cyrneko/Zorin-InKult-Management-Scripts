@@ -22,7 +22,7 @@ pulseaudio() {
 }
 
 pipewire() {
-   systemctl --user restart pipewire pipewire-pulse || echo -e "${red}Restarting Failed!${reset}" || echo -e "${green}pipewire restarted${reset}"
+   systemctl --user restart pipewire pipewire-pulse || echo -e "${red}Restarting Failed!${reset}"
 }
 
 bottles() {
