@@ -19,13 +19,6 @@ reset="\e[0m"
 zlite() {
    echo -e "${red}${bold}$(figlet Zorin Lite)${reset}"
    basic-programs
-   if [ -n "$1" ]; then
-      case "$1" in
-         --plank)
-            sudo apt-fast install plank -y
-      esac
-      shift
-   fi
    exit
 }
 
@@ -83,7 +76,7 @@ basic-programs() {
 # shellcheck disable=SC1089
 if [ -n "$1" ]; then
    # shellcheck disable=SC2220
-   case $1 in
+   case "$1" in
    -h) # display Help
       help
       ;;
@@ -99,6 +92,9 @@ if [ -n "$1" ]; then
    *) # Invalid option
       echo "Error: Invalid option"
       exit
+      ;;
+   --plank)
+      sudo apt-fast install plank -y
       ;;
    esac
    shift
