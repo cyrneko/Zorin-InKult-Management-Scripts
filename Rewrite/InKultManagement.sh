@@ -16,6 +16,14 @@ uline="\e[4m"
 # shellcheck disable=SC2034
 reset="\e[0m"
 
+bigtext() {
+   if [ command -v figlet >>/dev/null ]; then
+      figlet "InKultManagement"
+   else
+      echo -e "${bold}${uline}InKultManagement${reset}"
+   fi
+}
+
 pulseaudio() {
    systemctl --user restart pulseaudio
    echo -e "${green}PulseAudio restarted!${reset}"
@@ -41,7 +49,8 @@ lutris() {
 
 help() {
    clear
-   echo -e "${red}$(figlet "InKult Management")"
+   echo -e "${red}bigtext${reset}"
+   # echo -e "${red}$(figlet "InKult Management")"  ← this thing is old
    echo "This script sets up Zorin installations at the InKult Youth Center in Germany."
    echo -e "${reset}------------"
    echo -e "${blue}${bold}${uline}Syntax${reset}: $0 [Options]"
