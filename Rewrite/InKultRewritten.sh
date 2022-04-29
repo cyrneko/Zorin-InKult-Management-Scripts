@@ -16,6 +16,23 @@ uline="\e[4m"
 # shellcheck disable=SC2034
 reset="\e[0m"
 
+basic-programs() {
+   sudo add-apt-repository ppa:apt-fast/stable
+   sudo apt update
+   sudo DEBIAN_FRONTEND=noninteractive apt-get install -y apt-fast
+   sudo echo debconf "apt-fast/maxdownloads string \"20\"" | debconf-set-selections
+   sudo echo debconf "apt-fast/dlflag boolean \"true\"" | debconf-set-selections
+   sudo echo debconf "apt-fast/aptmanager string \"apt\"" | debconf-set-selections
+   sudo dpkg --add-architecture i386
+   echo "${green}${bold}# Installing WINE keys...${reset}"
+   wget -nc https://dl.winehq.org/wine-builds/winehq.key
+   sudo apt-key add winehq.key
+   sudo add-apt-repository "deb https://dl.winehq.org/wine-builds/ubuntu/ $(lsb_release -sc) main" -y
+   echo -e "${green}${bold}# Installing Wine${reset}"
+   echo -e "${red}This might take a while depending on internet speeds!${reset}"
+   sudo apt-fast install --install-recommends winehq-devel
+}
+
 zlite() {
    echo -e "${red}${bold}$(figlet Zorin Lite)${reset}"
    basic-programs
@@ -53,23 +70,6 @@ help() {
    echo -e "${blue}--plank can be used in combination with -l to install plank-dock.${reset}"
    echo "------------"
    exit
-}
-
-basic-programs() {
-   sudo add-apt-repository ppa:apt-fast/stable
-   sudo apt update
-   sudo DEBIAN_FRONTEND=noninteractive apt-get install -y apt-fast
-   sudo echo debconf "apt-fast/maxdownloads string \"20\"" | debconf-set-selections
-   sudo echo debconf "apt-fast/dlflag boolean \"true\"" | debconf-set-selections
-   sudo echo debconf "apt-fast/aptmanager string \"apt\"" | debconf-set-selections
-   sudo dpkg --add-architecture i386
-   echo "${green}${bold}# Installing WINE keys...${reset}"
-   wget -nc https://dl.winehq.org/wine-builds/winehq.key
-   sudo apt-key add winehq.key
-   sudo add-apt-repository "deb https://dl.winehq.org/wine-builds/ubuntu/ $(lsb_release -sc) main" -y
-   echo -e "${green}${bold}# Installing Wine${reset}"
-   echo -e "${red}This might take a while depending on internet speeds!${reset}"
-   sudo apt-fast install --install-recommends winehq-devel
 }
 
 # Options
