@@ -16,6 +16,18 @@ uline="\e[4m"
 # shellcheck disable=SC2034
 reset="\e[0m"
 
+popupdate() {
+   echo -e "${red}Are you sure you want to run pop-system-upgrade?${reset}"
+   read -r -p popupdateuserinput
+   if [ $popupdateuserinput == "y" ]; then
+      sudo apt update && sudo apt upgrade -y
+      pop-system-updater release upgrade
+   else
+      echo "Answer ≠ y!"
+      echo "Exiting!"
+   fi
+}
+
 bigtext() {
    if [ command -v figlet >>/dev/null ]; then
       figlet "InKultManagement"
@@ -79,24 +91,19 @@ gui () {
    ask=$(zenity --list --title="Management Options" --column="0" "Restart Pipewire" "Restart PulseAudio (old Audio Server)" "do Accelerated Updates" "Show Help" "Install Bottles" "Install Lutris" --width=300 --height=300 --hide-header)
    if [ "$ask" == "Restart Pipewire" ]; then
       echo "Restarting Pipewire (Audio Server)..."
-      (pipewire >> /dev/tty
-      echo "100" ) | zenity --progress --auto-close --pulsate --title="Restarting Pipewire..." --text="Make sure audio devices are plugged in BEFORE running this, otherwise it may not work."
+      (pipewire >> /dev/tty ; echo "100" ) | zenity --progress --auto-close --pulsate --title="Restarting Pipewire..." --text="Make sure audio devices are plugged in BEFORE running this, otherwise it may not work."
    elif [ "$ask" == "Restart PulseAudio (old Audio Server)" ]; then
       echo "Restarting PulseAudio..."
-      (pulseaudio >> /dev/tty
-      echo "100" ) | zenity --progress --auto-close --pulsate --title="restarting PulseAudio..." --text="Make sure audio devices are plugged in BEFORE running this, otherwie it may not work."
+      (pulseaudio >> /dev/tty ; echo "100" ) | zenity --progress --auto-close --pulsate --title="restarting PulseAudio..." --text="Make sure audio devices are plugged in BEFORE running this, otherwie it may not work."
    elif [ "$ask" == "do Accelerated Updates" ]; then
       echo "Running apt-fast for accelerated updates...."
-      (apt-fast-upgrade >> /dev/tty
-      echo "100") | zenity --progress --auto-close --pulsate --title="updating..." --text="please be patient, this might take a while..."
+      (apt-fast-upgrade >> /dev/tty ; echo "100") | zenity --progress --auto-close --pulsate --title="updating..." --text="please be patient, this might take a while..."
    elif [ "$ask" == "Show Help" ]; then
       help
    elif [ "$ask" == "Install Bottles" ]; then
-      (bottles >> /dev/tty
-      echo "100") | zenity --progress --auto-close --pulsate --title="Installing Bottles..." --text="please be patient, this might take a while..."
+      (bottles >> /dev/tty ; echo "100") | zenity --progress --auto-close --pulsate --title="Installing Bottles..." --text="please be patient, this might take a while..."
    elif [ "$ask" == "Install Lutris" ]; then
-      (lutris >> /dev/tty
-      echo "100") | zenity --progress --auto-close --pulsate --title="Installing Lutris..." --text="please be patient, this might take a while..."
+      (lutris >> /dev/tty ; echo "100") | zenity --progress --auto-close --pulsate --title="Installing Lutris..." --text="please be patient, this might take a while..."
    fi
 }
 
