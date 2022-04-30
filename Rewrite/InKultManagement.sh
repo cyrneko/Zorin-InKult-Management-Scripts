@@ -104,6 +104,8 @@ gui () {
       (bottles >> /dev/tty ; echo "100") | zenity --progress --auto-close --pulsate --title="Installing Bottles..." --text="please be patient, this might take a while..."
    elif [ "$ask" == "Install Lutris" ]; then
       (lutris >> /dev/tty ; echo "100") | zenity --progress --auto-close --pulsate --title="Installing Lutris..." --text="please be patient, this might take a while..."
+   elif
+      (popupdate >> /dev/tty ; echo 100) | zenity --progress --auto-close --pulsate --title="running pop-system-upgrade..." --text="please be patient, this might take a while..." 
    fi
 }
 
@@ -160,6 +162,8 @@ if [ -n "$1" ]; then
    -b)
       bottles
       ;;
+   -pu)
+      popupdate
    *)
       echo "$1 is not an option"
       ;;
