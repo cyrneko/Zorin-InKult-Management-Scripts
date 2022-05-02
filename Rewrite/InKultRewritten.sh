@@ -109,12 +109,15 @@ if [ -n "$1" ]; then
    -o)
       basic-programs
       ;;
-   *) # Invalid option
-      echo "Error: Invalid option"
-      exit
-      ;;
    --plank)
       sudo apt-fast install plank -y
+      ;;
+   --pop-upgrade)
+      pop
+      ;;
+   *) 
+      echo "Error: Invalid option"
+      exit
       ;;
    esac
    shift
