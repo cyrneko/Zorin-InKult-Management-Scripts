@@ -13,7 +13,7 @@ chmod +x Any-Script-Here.sh
 
 ### then do the following to run the script:
 ```bash
-./Any-Script-Here.sh
+./InKultRewritten.sh
 # this is to actually run the script, without any arguments.
 
 # you can also just double-click onto the .sh file and hit "Execute" in the upcoming window

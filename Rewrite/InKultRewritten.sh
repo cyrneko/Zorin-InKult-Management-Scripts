@@ -33,6 +33,26 @@ basic-programs() {
    sudo apt-fast install --install-recommends winehq-devel
 }
 
+pop() {
+   echo -e "${green}${bold}$(figlet Pop\!_OS)${reset}"
+   basic-programs
+   read -r -p "${green}do you want ot perform a pop-system-upgrade?${reset}" yn
+   case $yn in
+      [yY] ) 
+        echo -e "${green}Performing full release upgrade...${reset}"
+        pop-upgrade release upgrade
+        exit 0
+        ;;
+      [nN] )
+        echo "skipping release upgrade..."
+        exit 0
+        ;;
+        * )
+        echo -e "${red}That is not a valid option!${reset}"
+        exit 1
+   esac
+}
+
 zlite() {
    echo -e "${red}${bold}$(figlet Zorin Lite)${reset}"
    basic-programs
