@@ -17,12 +17,12 @@ uline="\e[4m"
 reset="\e[0m"
 
 basic-programs() {
-   sudo add-apt-repository ppa:apt-fast/stable
+   sudo add-apt-repository ppa:apt-fast/stable -y
    sudo apt update
    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y apt-fast
-   sudo echo debconf "apt-fast/maxdownloads string \"20\"" | debconf-set-selections
-   sudo echo debconf "apt-fast/dlflag boolean \"true\"" | debconf-set-selections
-   sudo echo debconf "apt-fast/aptmanager string \"apt\"" | debconf-set-selections
+   echo debconf "apt-fast/maxdownloads string \"20\"" | sudo debconf-set-selections
+   echo debconf "apt-fast/dlflag boolean \"true\"" | sudo debconf-set-selections
+   echo debconf "apt-fast/aptmanager string \"apt\"" | sudo debconf-set-selections
    sudo dpkg --add-architecture i386
    echo "${green}${bold}# Installing WINE keys...${reset}"
    wget -nc https://dl.winehq.org/wine-builds/winehq.key
@@ -98,8 +98,6 @@ if [ -n "$1" ]; then
       ;;
    esac
    shift
-else
-   gui
 fi
 
 exit 0
