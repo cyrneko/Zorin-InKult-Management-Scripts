@@ -16,6 +16,14 @@ uline="\e[4m"
 # shellcheck disable=SC2034
 reset="\e[0m"
 
+bigtext() {
+   if [ command -v figlet >>/dev/null ]; then
+      figlet "InKultManagement"
+   else
+      echo -e "${bold}${uline}InKultManagement${reset}"
+   fi
+}
+
 popupdate() {
    echo -e "${red}Are you sure you want to run pop-system-upgrade?${reset}"
    read -r -p popupdateuserinput
@@ -25,14 +33,6 @@ popupdate() {
    else
       echo "Answer ≠ y!"
       echo "Exiting!"
-   fi
-}
-
-bigtext() {
-   if [ command -v figlet >>/dev/null ]; then
-      figlet "InKultManagement"
-   else
-      echo -e "${bold}${uline}InKultManagement${reset}"
    fi
 }
 
@@ -134,6 +134,7 @@ dconfbackup() {
 }
 
 tui () {
+   bigtext
    echo -e "${green}Select an option!${reset}"
    echo "1     restart Pulseaudio"
    echo "2     restart Pipewire"
