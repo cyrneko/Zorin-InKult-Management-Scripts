@@ -85,6 +85,11 @@ apt-fast-upgrade () {
    echo -e "${green}Finished!${reset}"
 }
 
+gui () {
+   echo "the GUI has been removed due to the hassle of maintaining it as a whole, please use the Terminal UI instead."
+   echo "You can run the Terminal UI using $0 --tui or $0 --terminalui"
+   exit 1;
+}
 
 # gui () {
 #    echo -e "${green}Starting GUI...${reset}"

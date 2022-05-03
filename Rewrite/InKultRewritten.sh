@@ -87,9 +87,40 @@ help() {
    echo -e "$0 -c   |   ${green}starts installation and setup for Zorin 16 Core.${reset}"
    echo -e "$0 -l   |   ${green}starts installation and setup for Zorin 16 Lite.${reset}"
    echo -e "$0 -o   |   ${green}attempts to install on other debian-based distributions.${reset}"
-   echo -e "${blue}--plank can be used in combination with -l to install plank-dock.${reset}"
    echo "------------"
    exit
+}
+
+tui () {
+   echo -e "${green}Select an option!${reset}"
+   echo "1     Install on Pop!_OS"
+   echo "2     Install on Zorin 16.x Core"
+   echo "3     Install on Zorin 16.x Lite"
+   echo "4     Attempt installing on another debian-based distro (advanced)"
+   echo "0     Exit."
+   read -r -p "Your selection: " tui-input
+      case $tui-input in
+         0)
+            echo "${green}Exiting!${reset}"
+            exit 0;
+            ;;
+         1)
+            pop
+            ;;
+         2)
+            zcore
+            ;;
+         3)
+            zlite
+            ;;
+         4)
+            basic-programs
+            ;;
+         *)
+            echo "$tui-input is not a valid option!"
+            exit 1;
+            ;;
+      esac
 }
 
 # Options
@@ -97,10 +128,10 @@ help() {
 if [ -n "$1" ]; then
    # shellcheck disable=SC2220
    case "$1" in
-   -h) # display Help
+   -h)
       help
       ;;
-   -l) # Specify Zorin-Lite for Setup | shit doesn't work at the moment, man, why
+   -l)
       zlite
       ;;
    -c)
@@ -109,10 +140,10 @@ if [ -n "$1" ]; then
    -o)
       basic-programs
       ;;
-   --plank)
+   --plank) # install Plank-dock
       sudo apt-fast install plank -y
       ;;
-   --pop-upgrade)
+   --pop-upgrade) # run pop!_OS's upgrading tool for release upgrades
       pop
       ;;
    *) 
