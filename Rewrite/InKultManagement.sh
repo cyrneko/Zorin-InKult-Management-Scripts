@@ -45,13 +45,13 @@ pipewire() {
    systemctl --user restart pipewire pipewire-pulse || echo -e "${red}Restarting Failed!${reset}"
 }
 
-bottles() {
+install-bottles() {
    echo -e "${green}Installing Bottles through Flatpak..."
    flatpak install com.usebottles.bottles
    echo -e "${green}Bottles Installed! Launch it from the Menu or the Search"
 }
 
-lutris() {
+install-lutris() {
    echo -e "${green}Installing Lutris..."
    sudo add-apt-repository ppa:lutris-team/lutris
    sudo apt update
@@ -86,28 +86,28 @@ apt-fast-upgrade () {
 }
 
 
-gui () {
-   echo -e "${green}Starting GUI...${reset}"
-   ask=$(zenity --list --title="Management Options" --column="0" "Restart Pipewire" "Restart PulseAudio (old Audio Server)" "do Accelerated Updates" "Show Help" "Install Bottles" "Install Lutris" --width=300 --height=300 --hide-header)
-   if [ "$ask" == "Restart Pipewire" ]; then
-      echo "Restarting Pipewire (Audio Server)..."
-      (pipewire >> /dev/tty ; echo "100" ) | zenity --progress --auto-close --pulsate --title="Restarting Pipewire..." --text="Make sure audio devices are plugged in BEFORE running this, otherwise it may not work."
-   elif [ "$ask" == "Restart PulseAudio (old Audio Server)" ]; then
-      echo "Restarting PulseAudio..."
-      (pulseaudio >> /dev/tty ; echo "100" ) | zenity --progress --auto-close --pulsate --title="restarting PulseAudio..." --text="Make sure audio devices are plugged in BEFORE running this, otherwie it may not work."
-   elif [ "$ask" == "do Accelerated Updates" ]; then
-      echo "Running apt-fast for accelerated updates...."
-      (apt-fast-upgrade >> /dev/tty ; echo "100") | zenity --progress --auto-close --pulsate --title="updating..." --text="please be patient, this might take a while..."
-   elif [ "$ask" == "Show Help" ]; then
-      help
-   elif [ "$ask" == "Install Bottles" ]; then
-      (bottles >> /dev/tty ; echo "100") | zenity --progress --auto-close --pulsate --title="Installing Bottles..." --text="please be patient, this might take a while..."
-   elif [ "$ask" == "Install Lutris" ]; then
-      (lutris >> /dev/tty ; echo "100") | zenity --progress --auto-close --pulsate --title="Installing Lutris..." --text="please be patient, this might take a while..."
-   elif
-      (popupdate >> /dev/tty ; echo 100) | zenity --progress --auto-close --pulsate --title="running pop-system-upgrade..." --text="please be patient, this might take a while..." 
-   fi
-}
+# gui () {
+#    echo -e "${green}Starting GUI...${reset}"
+#    ask=$(zenity --list --title="Management Options" --column="0" "Restart Pipewire" "Restart PulseAudio (old Audio Server)" "do Accelerated Updates" "Show Help" "Install Bottles" "Install Lutris" --width=300 --height=300 --hide-header)
+#    if [ "$ask" == "Restart Pipewire" ]; then
+#       echo "Restarting Pipewire (Audio Server)..."
+#       (pipewire >> /dev/tty ; echo "100" ) | zenity --progress --auto-close --pulsate --title="Restarting Pipewire..." --text="Make sure audio devices are plugged in BEFORE running this, otherwise it may not work."
+#    elif [ "$ask" == "Restart PulseAudio (old Audio Server)" ]; then
+#       echo "Restarting PulseAudio..."
+#       (pulseaudio >> /dev/tty ; echo "100" ) | zenity --progress --auto-close --pulsate --title="restarting PulseAudio..." --text="Make sure audio devices are plugged in BEFORE running this, otherwie it may not work."
+#    elif [ "$ask" == "do Accelerated Updates" ]; then
+#       echo "Running apt-fast for accelerated updates...."
+#       (apt-fast-upgrade >> /dev/tty ; echo "100") | zenity --progress --auto-close --pulsate --title="updating..." --text="please be patient, this might take a while..."
+#    elif [ "$ask" == "Show Help" ]; then
+#       help
+#    elif [ "$ask" == "Install Bottles" ]; then
+#       (bottles >> /dev/tty ; echo "100") | zenity --progress --auto-close --pulsate --title="Installing Bottles..." --text="please be patient, this might take a while..."
+#    elif [ "$ask" == "Install Lutris" ]; then
+#       (lutris >> /dev/tty ; echo "100") | zenity --progress --auto-close --pulsate --title="Installing Lutris..." --text="please be patient, this might take a while..."
+#    elif
+#       (popupdate >> /dev/tty ; echo 100) | zenity --progress --auto-close --pulsate --title="running pop-system-upgrade..." --text="please be patient, this might take a while..." 
+#    fi
+# }
 
 dconfbackup() {
    askdconf=$(zenity --list --title="Backup" --column="0" "backup all settings" "backup only Desktop Extensions" "backup only .config folder" "backup everything" --width=150 --height=300 --hide-header)
@@ -131,6 +131,46 @@ dconfbackup() {
       dconf dump > ~/Backups/Dconf/all.dconf
       cp -R ~/.config ~/Backups/
    fi
+}
+
+tui () {
+   echo -e "${green}Select an option!${reset}"
+   echo "1     restart Pulseaudio"
+   echo "2     restart Pipewire"
+   echo "3     run accelerated updates"
+   echo "4     backup settings (dconf, .config)"
+   echo "5     install Lutris"
+   echo "6     install bottles"
+   echo "0     exit"
+   read -r -p "Your selection: " tui-input
+
+   case $tui-input in
+      1)
+         pulseaudio
+         ;;
+      2)
+         pipewire
+         ;;
+      3)
+         apt-fast-upgrade
+         ;;
+      4)
+         dconfbackup
+         ;;
+      5)
+         install-lutris
+         ;;
+      6)
+         install-bottles
+         ;;
+      0)
+         echo "Exiting!"
+         exit 0;
+         ;;
+      *)
+         "$tui-input is not a valid option!"
+         ;;
+   esac
 }
 
 if [ -n "$1" ]; then
@@ -164,11 +204,15 @@ if [ -n "$1" ]; then
       ;;
    -pu)
       popupdate
+   --terminalui)
+      tui
+      ;;
+   --tui)
+      tui
+      ;;
    *)
       echo "$1 is not an option"
       ;;
    esac
    shift
-else
-   gui
 fi
