@@ -63,6 +63,7 @@ pop() {
 zlite() {
    echo -e "${red}${bold}$(figlet Zorin Lite)${reset}"
    basic-programs
+   if [ "$DISABLE_PLANK" != "true" ]; then
    read -r -p "Do you want to install Plank-dock? [y/N]: " plankinput
       case $plankinput in
          [yY] )
@@ -73,7 +74,9 @@ zlite() {
             exit 0;
             ;;
       esac
-   exit
+   else
+      echo "skipping plank due to DISABLE_PLANK=true!"
+   exit 0;
 }
 
 zcore() {
