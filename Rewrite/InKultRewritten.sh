@@ -43,7 +43,7 @@ plankinstall() {
 pop() {
    echo -e "${green}${bold}$(figlet Pop\!_OS)${reset}"
    basic-programs
-   read -r -p "${green}do you want ot perform a pop-system-upgrade?${reset}" yn
+   read -r -p "${green}do you want to perform a pop-system-upgrade?${reset}" yn
    case $yn in
       [yY] ) 
         echo -e "${green}Performing full release upgrade...${reset}"
