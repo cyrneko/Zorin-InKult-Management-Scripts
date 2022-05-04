@@ -83,21 +83,23 @@ help() {
    echo -e "${blue}${bold}${uline}Syntax${reset}: $0 [Options]"
    echo ""
    echo -e "${blue}${bold}${uline}Example options:${reset}"
-   echo -e "$0 -h   |   ${green}shows a help page for this script${reset}"
-   echo -e "$0 -c   |   ${green}starts installation and setup for Zorin 16 Core.${reset}"
-   echo -e "$0 -l   |   ${green}starts installation and setup for Zorin 16 Lite.${reset}"
-   echo -e "$0 -o   |   ${green}attempts to install on other debian-based distributions.${reset}"
+   echo -e "$0 -h             ${green}shows a help page for this script${reset}"
+   echo -e "$0 -c             ${green}starts installation and setup for Zorin 16 Core.${reset}"
+   echo -e "$0 -l             ${green}starts installation and setup for Zorin 16 Lite.${reset}"
+   echo -e "$0 -o             ${green}attempts to install on other debian-based distributions.${reset}"
+   echo -e "$0 -tui           ${green}starts a Terminal-based UI/Selection screen${reset}"
+   echo -e "$0 -t             ${green}same as --tui${reset}"
    echo "------------"
    exit
 }
 
 tui () {
    echo -e "${green}Select an option!${reset}"
-   echo "1     Install on Pop!_OS"
+   echo -e "${green}1     Install on Pop!_OS"
    echo "2     Install on Zorin 16.x Core"
    echo "3     Install on Zorin 16.x Lite"
    echo "4     Attempt installing on another debian-based distro (advanced)"
-   echo "0     Exit."
+   echo -e "0     Exit.${reset}"
    read -r -p "Your selection: " tui-input
       case $tui-input in
          0)
@@ -140,11 +142,17 @@ if [ -n "$1" ]; then
    -o)
       basic-programs
       ;;
-   --plank) # install Plank-dock
-      sudo apt-fast install plank -y
-      ;;
    --pop-upgrade) # run pop!_OS's upgrading tool for release upgrades
       pop
+      ;;
+   --terminalui)
+      tui
+      ;;
+   --tui)
+      tui
+      ;;
+   -t)
+      tui
       ;;
    *) 
       echo "Error: Invalid option"
