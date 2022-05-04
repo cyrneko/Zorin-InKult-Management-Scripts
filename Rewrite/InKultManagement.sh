@@ -17,7 +17,7 @@ uline="\e[4m"
 reset="\e[0m"
 
 bigtext() {
-   if [ command -v figlet >>/dev/null ]; then
+   if [ "$(which figlet)" == "/usr/bin/figlet" ]; then
       figlet "InKultManagement"
    else
       echo -e "${bold}${uline}InKultManagement${reset}"
@@ -26,14 +26,23 @@ bigtext() {
 
 popupdate() {
    echo -e "${red}Are you sure you want to run pop-system-upgrade?${reset}"
-   read -r -p popupdateuserinput
-   if [ $popupdateuserinput == "y" ]; then
-      sudo apt update && sudo apt upgrade -y
-      pop-system-updater release upgrade
-   else
-      echo "Answer ≠ y!"
-      echo "Exiting!"
-   fi
+   read -r -p "Y/n: " puuserinput
+   case $puuserinput in
+   [yY])
+      sudo apt update -y
+      sudo apt full-upgrade -y
+      pop-upgrade release upgrade
+      ;;
+   [nN])
+      echo "Aborting!"
+      exit
+      ;;
+   *)
+      echo "that was not a valid option!"
+      echo "Try again."
+      popupdate
+      ;;
+   esac
 }
 
 pulseaudio() {
@@ -79,16 +88,16 @@ help() {
    exit
 }
 
-apt-fast-upgrade () {
+apt-fast-upgrade() {
    echo -e "${red}starting...${reset}"
    pkexec apt-fast upgrade -y
    echo -e "${green}Finished!${reset}"
 }
 
-gui () {
+gui() {
    echo "the GUI has been removed due to the hassle of maintaining it as a whole, please use the Terminal UI instead."
    echo "You can run the Terminal UI using $0 --tui or $0 --terminalui"
-   exit 1;
+   exit 1
 }
 
 # gui () {
@@ -110,7 +119,7 @@ gui () {
 #    elif [ "$ask" == "Install Lutris" ]; then
 #       (lutris >> /dev/tty ; echo "100") | zenity --progress --auto-close --pulsate --title="Installing Lutris..." --text="please be patient, this might take a while..."
 #    elif
-#       (popupdate >> /dev/tty ; echo 100) | zenity --progress --auto-close --pulsate --title="running pop-system-upgrade..." --text="please be patient, this might take a while..." 
+#       (popupdate >> /dev/tty ; echo 100) | zenity --progress --auto-close --pulsate --title="running pop-system-upgrade..." --text="please be patient, this might take a while..."
 #    fi
 # }
 
@@ -118,12 +127,12 @@ dconfbackup() {
    askdconf=$(zenity --list --title="Backup" --column="0" "backup all settings" "backup only Desktop Extensions" "backup only .config folder" "backup everything" --width=150 --height=300 --hide-header)
    if [ "$askdconf" == "backup all settings" ]; then
       mkdir -p ~/Backups/Dconf/
-      dconf dump > ~/Backups/Dconf/backup.dconf
+      dconf dump >~/Backups/Dconf/backup.dconf
    fi
 
    if [ "$askdconf" == "backup only Desktop Extensions" ]; then
       mkdir -p ~/Backups/Dconf/
-      dconf dump /org/gnome/shell/extensions/ > ~/Backups/Dconf/extensions.dconf
+      dconf dump /org/gnome/shell/extensions/ >~/Backups/Dconf/extensions.dconf
    fi
 
    if [ "$askdconf" == "backup only .config folder" ]; then
@@ -133,12 +142,12 @@ dconfbackup() {
 
    if [ "$askdconf" == "backup everything" ]; then
       mkdir -p ~/Backups/Dconf/
-      dconf dump > ~/Backups/Dconf/all.dconf
+      dconf dump >~/Backups/Dconf/all.dconf
       cp -R ~/.config ~/Backups/
    fi
 }
 
-tui () {
+tui() {
    bigtext
    echo -e "${green}Select an option!${reset}"
    echo "1     restart Pulseaudio"
@@ -148,41 +157,41 @@ tui () {
    echo "5     install Lutris"
    echo "6     install bottles"
    echo "0     exit"
-   read -r -p "Your selection: " tui-input
+   read -r -p "Your selection: " tuiinput
 
-   case $tui-input in
-      1)
-         pulseaudio
-         ;;
-      2)
-         pipewire
-         ;;
-      3)
-         apt-fast-upgrade
-         ;;
-      4)
-         dconfbackup
-         ;;
-      5)
-         install-lutris
-         ;;
-      6)
-         install-bottles
-         ;;
-      0)
-         echo "Exiting!"
-         exit 0;
-         ;;
-      *)
-         "$tui-input is not a valid option!"
-         ;;
+   case $tuiinput in
+   1)
+      pulseaudio
+      ;;
+   2)
+      pipewire
+      ;;
+   3)
+      apt-fast-upgrade
+      ;;
+   4)
+      dconfbackup
+      ;;
+   5)
+      install-lutris
+      ;;
+   6)
+      install-bottles
+      ;;
+   0)
+      echo "Exiting!"
+      exit 0
+      ;;
+   *)
+      "$tuiinput is not a valid option!"
+      ;;
    esac
 }
 
 if [ -n "$1" ]; then
    case "$1" in
    -h)
-      help 
+      help
       ;;
    -pw)
       echo "Restarting PipeWire..."
@@ -199,7 +208,7 @@ if [ -n "$1" ]; then
       echo "Running apt-fast for accelerated updates...."
       apt-fast-upgrade
       ;;
-   -b) # backup settings through dconf
+   -db) # backup settings through dconf
       dconfbackup
       ;;
    -l)
@@ -210,6 +219,7 @@ if [ -n "$1" ]; then
       ;;
    -pu)
       popupdate
+      ;;
    --terminalui)
       tui
       ;;
