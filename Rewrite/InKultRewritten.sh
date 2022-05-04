@@ -33,6 +33,13 @@ basic-programs() {
    sudo apt-fast install --install-recommends winehq-devel
 }
 
+plankinstall() {
+   echo -e "${green}Installing plank-dock${reset}"
+   sudo apt install -y plank
+   echo -e "${green}Plank installed!${reset}"
+   exit 0;
+}
+
 pop() {
    echo -e "${green}${bold}$(figlet Pop\!_OS)${reset}"
    basic-programs
@@ -56,6 +63,16 @@ pop() {
 zlite() {
    echo -e "${red}${bold}$(figlet Zorin Lite)${reset}"
    basic-programs
+   read -r -p "Do you want to install Plank-dock? [y/N]: " plankinput
+      case $plankinput in
+         [yY] )
+            plankinstall
+            ;;
+         *)
+            echo "skipping plank install."
+            exit 0;
+            ;;
+      esac
    exit
 }
 
@@ -145,14 +162,14 @@ if [ -n "$1" ]; then
    --pop-upgrade) # run pop!_OS's upgrading tool for release upgrades
       pop
       ;;
-   --terminalui)
-      tui
-      ;;
    --tui)
       tui
       ;;
    -t)
       tui
+      ;;
+   --plank)
+      plankinstall
       ;;
    *) 
       echo "Error: Invalid option"
