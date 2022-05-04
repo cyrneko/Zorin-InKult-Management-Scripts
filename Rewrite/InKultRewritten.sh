@@ -117,8 +117,8 @@ tui () {
    echo "3     Install on Zorin 16.x Lite"
    echo "4     Attempt installing on another debian-based distro (advanced)"
    echo -e "0     Exit.${reset}"
-   read -r -p "Your selection: " tui-input
-      case $tui-input in
+   read -r -p "Your selection: " tuiinput
+      case $tuiinput in
          0)
             echo "${green}Exiting!${reset}"
             exit 0;
@@ -136,7 +136,7 @@ tui () {
             basic-programs
             ;;
          *)
-            echo "$tui-input is not a valid option!"
+            echo "$tuiinput is not a valid option!"
             exit 1;
             ;;
       esac
