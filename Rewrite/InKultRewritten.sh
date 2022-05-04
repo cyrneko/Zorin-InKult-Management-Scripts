@@ -135,6 +135,9 @@ tui () {
          4)
             basic-programs
             ;;
+         5)
+            plankinstall
+            ;;
          *)
             echo "$tuiinput is not a valid option!"
             exit 1;
