@@ -17,11 +17,12 @@ uline="\e[4m"
 reset="\e[0m"
 
 bigtext() {
-   if [ "$(which figlet)" == "/usr/bin/figlet" ]; then
-      figlet "InKultManagement"
-   else
+   # if [ "$(which figlet)" == "/usr/bin/figlet" ]; then
+   #    figlet "InKultManagement"
+   # else
       echo -e "${bold}${uline}InKultManagement${reset}"
-   fi
+   # fi
+   # commented this out as it was mostly useless and Ubuntu 22.04's Figlet looks WAY worse
 }
 
 popupdate() {
@@ -70,7 +71,9 @@ install-lutris() {
 
 help() {
    clear
-   echo -e "${red}bigtext${reset}"
+   echo -e "${red}"
+   bigtext
+   echo -e "${reset}"
    # echo -e "${red}$(figlet "InKult Management")"  ← this thing is old
    echo "This script sets up Zorin installations at the InKult Youth Center in Germany."
    echo -e "${reset}------------"
@@ -79,11 +82,15 @@ help() {
    echo -e "${red}No Options = GUI${reset}"
    echo ""
    echo -e "${blue}${bold}${uline}Available options:${reset}"
-   echo -e "$0 -h   |   ${green}shows a help page for this script${reset}"
-   echo -e "$0 -g   |   ${green}shows a GUI to do different actions${reset}"
-   echo -e "$0 -a   |   ${green}runs apt-fast for accelerated system updates${reset}"
-   echo -e "$0 -pw  |   ${green}restarts PipeWire (Audio Server)${reset}"
-   echo -e "$0 -pa  |   ${green}restarts PulseAudio (Audio Server, default, but older)${reset}"
+   echo -e "$0 -h             ${green}shows a help page for this script${reset}"
+   echo -e "$0 -g             ${green}shows a GUI to do different actions${reset}"
+   echo -e "$0 -a             ${green}runs apt-fast for accelerated system updates${reset}"
+   echo -e "$0 -pw            ${green}restarts PipeWire (Audio Server)${reset}"
+   echo -e "$0 -pa            ${green}restarts PulseAudio (Audio Server, default, but older)${reset}"
+   echo -e "$0 -db            ${green}allows backing up various settings${reset}"
+   echo -e "$0 -b             ${green}Install Bottles through Flatpak${reset}"
+   echo -e "$0 -l             ${green}Install Lutris${reseŧ}"
+   echo -e "$0"
    echo "------------"
    exit
 }
