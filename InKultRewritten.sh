@@ -77,6 +77,7 @@ zlite() {
    else
       echo "skipping plank due to DISABLE_PLANK=true!"
    exit 0;
+   fi
 }
 
 zcore() {

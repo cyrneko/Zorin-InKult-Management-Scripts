@@ -33,7 +33,7 @@ popupdate() {
 }
 
 bigtext() {
-   if [ command -v figlet >>/dev/null ]; then
+   if [ "$(which figlet)" == "/usr/bin/figlet" ] && [ "$(lsb_release -sr)" != "22.04" ]; then
       figlet "InKultManagement"
    else
       echo -e "${bold}${uline}InKultManagement${reset}"
@@ -117,40 +117,16 @@ gui() {
 #    fi
 # }
 
-# dconfbackup() {
-#    askdconf=$(zenity --list --title="Backup" --column="0" "backup all settings" "backup only Desktop Extensions" "backup only .config folder" "backup everything" --width=150 --height=300 --hide-header)
-#    if [ "$askdconf" == "backup all settings" ]; then
-#       mkdir -p ~/Backups/Dconf/
-#       dconf dump > ~/Backups/Dconf/backup.dconf
-#    fi
-# 
-#    if [ "$askdconf" == "backup only Desktop Extensions" ]; then
-#       mkdir -p ~/Backups/Dconf/
-#       dconf dump /org/gnome/shell/extensions/ > ~/Backups/Dconf/extensions.dconf
-#    fi
-# 
-#    if [ "$askdconf" == "backup only .config folder" ]; then
-#       mkdir -p ~/Backups/
-#       cp -R ~/.config ~/Backups/
-#    fi
-# 
-#    if [ "$askdconf" == "backup everything" ]; then
-#       mkdir -p ~/Backups/Dconf/
-#       dconf dump > ~/Backups/Dconf/all.dconf
-#       cp -R ~/.config ~/Backups/
-#    fi
-# }
-
-dconfbackup() {
-   askdconf=$(zenity --list --title="Backup" --column="0" "all-settings" "only-Desktop-Extensions" "only-.config-folder" "everything" --width=150 --height=300 --hide-header)
-   case $askdconf in
+backupfunc() {
+   askbackupdconf=$(zenity --list --title="Backup" --column="0" --width=150 --height=300 --hide-header "all-settings" "only-Desktop-Extensions" "only-.config-folder" "everything")
+   case $askbackupdconf in
       all-settings)
          mkdir -p ~/Backups/Dconf/
          echo -e "${green}(re-)created backups folder${reset}"
          dconf dump / > ~/Backups/Dconf/backup.dconf
          echo -e "${green}Backed up dconf settings${reset}"
          ;;
-      only--esktop-Extensions)
+      only-Desktop-Extensions)
          mkdir -p ~/Backups/Dconf/
          echo -e "${green}(re-)created backups folder${reset}"
          dconf dump /org/gnome/shell/extensions/ > ~/Backups/Dconf/extensions.dconf
@@ -173,6 +149,32 @@ dconfbackup() {
    esac
 }
 
+backupload() {
+   askloaddconf=$(zenity --list --title="Load Backup" --column="0" --width=150 --height=300 --hide-header "Load-All-Settings" "Only-desktop-extensions" "only-.config-folder" "everything")
+      backupreboot() {
+         echo -e "${green}Backup loaded, you might want to ${bold}reboot.${reset}"
+      }
+         case $askloaddconf in
+            Load-All-Settings)
+               dconf load / < ~/Backups/Dconf/backup.dconf
+               backupreboot
+               ;;
+            Only-desktop-extensions)
+               dconf-load / < ~/Backups/Dconf/extensions.dconf
+               backupreboot
+               ;;
+            only-.config-folder)
+               cp -R ~/Backups/.config ~/
+               backupreboot
+               ;;
+            everything)
+               dconf load / < ~/Backups/Dconf/backup.dconf
+               cp -R ~/Backups/.config ~/
+               backupreboot
+               ;;
+         esac
+}
+
 if [ -n "$1" ]; then
    case "$1" in
    -h)
@@ -193,8 +195,11 @@ if [ -n "$1" ]; then
       echo "Running apt-fast for accelerated updates...."
       apt-fast-upgrade
       ;;
-   -b) # backup settings through dconf
-      dconfbackup
+   --backup) # backup settings through dconf
+      backupfunc
+      ;;
+   --loadbackup)
+      backupload
       ;;
    -l)
       lutris
