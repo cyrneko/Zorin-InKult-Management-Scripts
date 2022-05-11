@@ -16,34 +16,28 @@ uline="\e[4m"
 # shellcheck disable=SC2034
 reset="\e[0m"
 
-bigtext() {
-   # if [ "$(which figlet)" == "/usr/bin/figlet" ]; then
-   #    figlet "InKultManagement"
-   # else
-      echo -e "${bold}${uline}InKultManagement${reset}"
-   # fi
-   # commented this out as it was mostly useless and Ubuntu 22.04's Figlet looks WAY worse
+popupdate() {
+	read -r -p "${red}Are you sure you want to run pop-system-upgrade?${reset}" yn
+	case $yn in
+		[yY] )
+			echo -e "${green}Performing full release upgrade...${reset}"
+			pop-upgrade release upgrade
+			echo -e "${red}Rebooting in 5 seconds...${reset}"
+			sleep 5s; systemctl -i reboot
+			;;
+		[nN] )
+			echo "${red}Aborting system update!${reset}"
+			exit 1
+			;;
+	esac
 }
 
-popupdate() {
-   echo -e "${red}Are you sure you want to run pop-system-upgrade?${reset}"
-   read -r -p "Y/n: " puuserinput
-   case $puuserinput in
-   [yY])
-      sudo apt update -y
-      sudo apt full-upgrade -y
-      pop-upgrade release upgrade
-      ;;
-   [nN])
-      echo "Aborting!"
-      exit
-      ;;
-   *)
-      echo "that was not a valid option!"
-      echo "Try again."
-      popupdate
-      ;;
-   esac
+bigtext() {
+   if [ command -v figlet >>/dev/null ]; then
+      figlet "InKultManagement"
+   else
+      echo -e "${bold}${uline}InKultManagement${reset}"
+   fi
 }
 
 pulseaudio() {
@@ -55,13 +49,13 @@ pipewire() {
    systemctl --user restart pipewire pipewire-pulse || echo -e "${red}Restarting Failed!${reset}"
 }
 
-install-bottles() {
+bottles() {
    echo -e "${green}Installing Bottles through Flatpak..."
    flatpak install com.usebottles.bottles
    echo -e "${green}Bottles Installed! Launch it from the Menu or the Search"
 }
 
-install-lutris() {
+lutris() {
    echo -e "${green}Installing Lutris..."
    sudo add-apt-repository ppa:lutris-team/lutris
    sudo apt update
@@ -71,9 +65,7 @@ install-lutris() {
 
 help() {
    clear
-   echo -e "${red}"
-   bigtext
-   echo -e "${reset}"
+   echo -e "${red}bigtext${reset}"
    # echo -e "${red}$(figlet "InKult Management")"  ← this thing is old
    echo "This script sets up Zorin installations at the InKult Youth Center in Germany."
    echo -e "${reset}------------"
@@ -87,24 +79,22 @@ help() {
    echo -e "$0 -a             ${green}runs apt-fast for accelerated system updates${reset}"
    echo -e "$0 -pw            ${green}restarts PipeWire (Audio Server)${reset}"
    echo -e "$0 -pa            ${green}restarts PulseAudio (Audio Server, default, but older)${reset}"
-   echo -e "$0 -db            ${green}allows backing up various settings${reset}"
-   echo -e "$0 -b             ${green}Install Bottles through Flatpak${reset}"
-   echo -e "$0 -l             ${green}Install Lutris${reseŧ}"
-   echo -e "$0"
+   echo -e "$0 -b             ${green}installs bottles from Flathub${reset}"
+   echo -e "$0 -l             ${green}installs the Lutris game manager${reset}"
+   echo -e "$0 -pu            ${green}runs Pop!_OS updates"
    echo "------------"
    exit
 }
 
-apt-fast-upgrade() {
+apt-fast-upgrade () {
    echo -e "${red}starting...${reset}"
    pkexec apt-fast upgrade -y
    echo -e "${green}Finished!${reset}"
 }
 
 gui() {
-   echo "the GUI has been removed due to the hassle of maintaining it as a whole, please use the Terminal UI instead."
-   echo "You can run the Terminal UI using $0 --tui or $0 --terminalui"
-   exit 1
+   printf ""
+   echo "The UI has been deprecated for various reasons, it might return in the future in a more managable form from a development standpoint."
 }
 
 # gui () {
@@ -123,82 +113,70 @@ gui() {
 #       help
 #    elif [ "$ask" == "Install Bottles" ]; then
 #       (bottles >> /dev/tty ; echo "100") | zenity --progress --auto-close --pulsate --title="Installing Bottles..." --text="please be patient, this might take a while..."
-#    elif [ "$ask" == "Install Lutris" ]; then
-#       (lutris >> /dev/tty ; echo "100") | zenity --progress --auto-close --pulsate --title="Installing Lutris..." --text="please be patient, this might take a while..."
-#    elif
-#       (popupdate >> /dev/tty ; echo 100) | zenity --progress --auto-close --pulsate --title="running pop-system-upgrade..." --text="please be patient, this might take a while..."
+#    elif [ "$ask" == "Install Lutris" ]; then> --pulsate --title="running pop-system-upgrade..." --text="please be patient, this might take a while..." 
+#    fi
+# }
+
+# dconfbackup() {
+#    askdconf=$(zenity --list --title="Backup" --column="0" "backup all settings" "backup only Desktop Extensions" "backup only .config folder" "backup everything" --width=150 --height=300 --hide-header)
+#    if [ "$askdconf" == "backup all settings" ]; then
+#       mkdir -p ~/Backups/Dconf/
+#       dconf dump > ~/Backups/Dconf/backup.dconf
+#    fi
+# 
+#    if [ "$askdconf" == "backup only Desktop Extensions" ]; then
+#       mkdir -p ~/Backups/Dconf/
+#       dconf dump /org/gnome/shell/extensions/ > ~/Backups/Dconf/extensions.dconf
+#    fi
+# 
+#    if [ "$askdconf" == "backup only .config folder" ]; then
+#       mkdir -p ~/Backups/
+#       cp -R ~/.config ~/Backups/
+#    fi
+# 
+#    if [ "$askdconf" == "backup everything" ]; then
+#       mkdir -p ~/Backups/Dconf/
+#       dconf dump > ~/Backups/Dconf/all.dconf
+#       cp -R ~/.config ~/Backups/
 #    fi
 # }
 
 dconfbackup() {
-   askdconf=$(zenity --list --title="Backup" --column="0" "backup all settings" "backup only Desktop Extensions" "backup only .config folder" "backup everything" --width=150 --height=300 --hide-header)
-   if [ "$askdconf" == "backup all settings" ]; then
-      mkdir -p ~/Backups/Dconf/
-      dconf dump >~/Backups/Dconf/backup.dconf
-   fi
-
-   if [ "$askdconf" == "backup only Desktop Extensions" ]; then
-      mkdir -p ~/Backups/Dconf/
-      dconf dump /org/gnome/shell/extensions/ >~/Backups/Dconf/extensions.dconf
-   fi
-
-   if [ "$askdconf" == "backup only .config folder" ]; then
-      mkdir -p ~/Backups/
-      cp -R ~/.config ~/Backups/
-   fi
-
-   if [ "$askdconf" == "backup everything" ]; then
-      mkdir -p ~/Backups/Dconf/
-      dconf dump >~/Backups/Dconf/all.dconf
-      cp -R ~/.config ~/Backups/
-   fi
-}
-
-tui() {
-   bigtext
-   echo -e "${green}Select an option!${reset}"
-   echo "1     restart Pulseaudio"
-   echo "2     restart Pipewire"
-   echo "3     run accelerated updates"
-   echo "4     backup settings (dconf, .config)"
-   echo "5     install Lutris"
-   echo "6     install bottles"
-   echo "0     exit"
-   read -r -p "Your selection: " tuiinput
-
-   case $tuiinput in
-   1)
-      pulseaudio
-      ;;
-   2)
-      pipewire
-      ;;
-   3)
-      apt-fast-upgrade
-      ;;
-   4)
-      dconfbackup
-      ;;
-   5)
-      install-lutris
-      ;;
-   6)
-      install-bottles
-      ;;
-   0)
-      echo "Exiting!"
-      exit 0
-      ;;
-   *)
-      "$tuiinput is not a valid option!"
-      ;;
+   askdconf=$(zenity --list --title="Backup" --column="0" "all-settings" "only-Desktop-Extensions" "only-.config-folder" "everything" --width=150 --height=300 --hide-header)
+   case $askdconf in
+      all-settings)
+         mkdir -p ~/Backups/Dconf/
+         echo -e "${green}(re-)created backups folder${reset}"
+         dconf dump / > ~/Backups/Dconf/backup.dconf
+         echo -e "${green}Backed up dconf settings${reset}"
+         ;;
+      only--esktop-Extensions)
+         mkdir -p ~/Backups/Dconf/
+         echo -e "${green}(re-)created backups folder${reset}"
+         dconf dump /org/gnome/shell/extensions/ > ~/Backups/Dconf/extensions.dconf
+         echo -e "${green}Backed up /org/gnome/shell/extensions/ to ~/Backups${reset}"
+         ;;
+      only-.config-folder)
+         mkdir -p ~/Backups/Dconf/
+         echo -e "${green}(re-)created backups folder${reset}"
+         cp -R ~/.config ~/Backups/
+         echo -e "${green}Backed up .config to ~/Backup/.config/${reset}"
+         ;;
+      everything)
+         mkdir -p ~/Backups/Dconf/
+         echo -e "${green}(re-)created backups folder${reset}"
+         dconf dump / > ~/Backups/Dconf/backup.dconf
+         echo -e "${green}Backed up dconf settings${reset}"
+         cp -R ~/.config ~/Backups/
+         echo -e "${green}Backed up .config to ~/Backup/.config/${reset}"
+         ;;
    esac
 }
 
 if [ -n "$1" ]; then
    case "$1" in
    -h)
-      help
+      help 
       ;;
    -pw)
       echo "Restarting PipeWire..."
@@ -215,7 +193,7 @@ if [ -n "$1" ]; then
       echo "Running apt-fast for accelerated updates...."
       apt-fast-upgrade
       ;;
-   -db) # backup settings through dconf
+   -b) # backup settings through dconf
       dconfbackup
       ;;
    -l)
@@ -227,15 +205,10 @@ if [ -n "$1" ]; then
    -pu)
       popupdate
       ;;
-   --terminalui)
-      tui
-      ;;
-   --tui)
-      tui
-      ;;
    *)
       echo "$1 is not an option"
       ;;
    esac
-   shift
+# else
+#    gui
 fi
