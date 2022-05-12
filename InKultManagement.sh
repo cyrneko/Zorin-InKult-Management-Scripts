@@ -40,12 +40,12 @@ bigtext() {
    fi
 }
 
-pulseaudio() {
+restartpulseaudio() {
    systemctl --user restart pulseaudio
    echo -e "${green}PulseAudio restarted!${reset}"
 }
 
-pipewire() {
+restartpipewire() {
    systemctl --user restart pipewire pipewire-pulse || echo -e "${red}Restarting Failed!${reset}"
 }
 
@@ -95,6 +95,28 @@ apt-fast-upgrade () {
 gui() {
    printf ""
    echo "The UI has been deprecated for various reasons, it might return in the future in a more managable form from a development standpoint."
+}
+
+
+# gui() {
+   ask=$(zenity --list --title="Management Options" --column="0" --width=300 --height=300 --hide-header "Restart-Pipewire" "Restart-PulseAudio" "Do-accelerated-updates" "Install-Bottles" "Install-Lutris")
+   case $ask in
+      Restart-Pipewire)
+         pipewire | zenity --progress --auto-close --pulsate --title="Restarting Pipewire..." --text="Make sure audio devices are plugged in BEFORE running this, otherwise it may not work."
+         ;;
+      Restart-PulseAudio)
+         pulseaudio zenity --progress --auto-close --pulsate --title="Restarting PulseAudio..." --text="Make sure audio devices are plugged in BEFORE running this, otherwise it may not work."
+         ;;
+      Do-accelerated-updates)
+         apt-fast-upgrade
+         ;;
+      Install-Bottles)
+         bottles
+         ;;
+      Install-Lutris)
+         lutris
+         ;;
+   esac
 }
 
 # gui () {
