@@ -118,9 +118,6 @@ gui() {
 #    esac
 # }
 
-# hello today we're going to talk about goofy ahh uncle productions.
-# goofy ahh uncle productions is a internet phenomenon
-
 # gui () {
 #    echo -e "${green}Starting GUI...${reset}"
 #    ask=$(zenity --list --title="Management Options" --column="0" "Restart Pipewire" "Restart PulseAudio (old Audio Server)" "do Accelerated Updates" "Show Help" "Install Bottles" "Install Lutris" --width=300 --height=300 --hide-header)
